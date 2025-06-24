@@ -11,6 +11,7 @@ export function createClient({ apiKey, apiBaseUrl = PAPRA_API_URL }: { apiKey: s
   const methods = injectArguments(
     {
       uploadDocument,
+      generateRadiologyReport,
     },
     { apiClient },
   );
@@ -32,5 +33,13 @@ async function uploadDocument({
   return await apiClient<{ document: PapraDocument }>(`/api/organizations/${organizationId}/documents`, {
     method: 'POST',
     body: formData,
+  });
+}
+
+async function generateRadiologyReport({ exam, findings, apiClient }: { exam: string; findings: string; apiClient: ApiClient }) {
+  return await apiClient<{ report: string }>('/api/radiology/report', {
+    method: 'POST',
+    body: JSON.stringify({ exam, findings }),
+    headers: { 'Content-Type': 'application/json' },
   });
 }

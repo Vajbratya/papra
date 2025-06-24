@@ -13,6 +13,7 @@ import { registerUsersRoutes } from '../users/users.routes';
 import { registerWebhooksRoutes } from '../webhooks/webhook.routes';
 import { registerAuthRoutes } from './auth/auth.routes';
 import { registerHealthCheckRoutes } from './health-check/health-check.routes';
+import { registerRadiologyReportsRoutes } from '../openai/radiology-reports.routes';
 
 export function registerRoutes(context: RouteDefinitionContext) {
   registerAuthRoutes(context);
@@ -26,6 +27,7 @@ export function registerRoutes(context: RouteDefinitionContext) {
   registerTagsRoutes(context);
   registerTaggingRulesRoutes(context);
   registerApiKeysRoutes(context);
+  registerRadiologyReportsRoutes(context);
   registerWebhooksRoutes(context);
   registerInvitationsRoutes(context);
   registerDocumentActivityRoutes(context);
