@@ -12,6 +12,7 @@ export function createClient({ apiKey, apiBaseUrl = PAPRA_API_URL }: { apiKey: s
     {
       uploadDocument,
       generateRadiologyReport,
+      autocompleteRadiologyReport,
     },
     { apiClient },
   );
@@ -36,10 +37,18 @@ async function uploadDocument({
   });
 }
 
-async function generateRadiologyReport({ exam, findings, apiClient }: { exam: string; findings: string; apiClient: ApiClient }) {
+async function generateRadiologyReport({ exam, findings, style, apiClient }: { exam: string; findings: string; style?: string; apiClient: ApiClient }) {
   return await apiClient<{ report: string }>('/api/radiology/report', {
     method: 'POST',
-    body: JSON.stringify({ exam, findings }),
+    body: JSON.stringify({ exam, findings, style }),
+    headers: { 'Content-Type': 'application/json' },
+  });
+}
+
+async function autocompleteRadiologyReport({ text, apiClient }: { text: string; apiClient: ApiClient }) {
+  return await apiClient<{ text: string }>('/api/radiology/autocomplete', {
+    method: 'POST',
+    body: JSON.stringify({ text }),
     headers: { 'Content-Type': 'application/json' },
   });
 }

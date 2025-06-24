@@ -37,6 +37,7 @@ import { UserSettingsPage } from './modules/users/pages/user-settings.page';
 import { CreateWebhookPage } from './modules/webhooks/pages/create-webhook.page';
 import { EditWebhookPage } from './modules/webhooks/pages/edit-webhook.page';
 import { WebhooksPage } from './modules/webhooks/pages/webhooks.page';
+import { RadiologyReportPage } from './modules/radiology-reports';
 
 export const routes: RouteDefinition[] = [
   {
@@ -180,6 +181,10 @@ export const routes: RouteDefinition[] = [
           {
             path: '/first',
             component: CreateFirstOrganizationPage,
+          },
+          {
+            path: '/radiology-report',
+            component: RadiologyReportPage,
           },
         ],
       },

@@ -16,11 +16,11 @@ export function createRadiologyReportsService({ config }: { config: Config }) {
   const openai = new OpenAI({ apiKey });
   const model = config.openai.model;
 
-  async function generateReport({ exam, findings }: { exam: string; findings: string }) {
+  async function generateReport({ exam, findings, style = 'concise' }: { exam: string; findings: string; style?: string }) {
     const completion = await openai.chat.completions.create({
       model,
       messages: [
-        { role: 'system', content: 'You are a radiology assistant AI generating concise radiology reports.' },
+        { role: 'system', content: `You are a radiology assistant AI generating ${style} radiology reports.` },
         { role: 'user', content: `Exam: ${exam}\nFindings: ${findings}` },
       ],
     });
@@ -30,5 +30,18 @@ export function createRadiologyReportsService({ config }: { config: Config }) {
     return { report };
   }
 
-  return { generateReport };
+  async function autocompleteReport({ text }: { text: string }) {
+    const completion = await openai.chat.completions.create({
+      model,
+      messages: [
+        { role: 'system', content: 'You are a radiology assistant AI continuing the report.' },
+        { role: 'user', content: text },
+      ],
+    });
+
+    const continuation = completion.choices[0]?.message?.content ?? '';
+    return { text: continuation };
+  }
+
+  return { generateReport, autocompleteReport };
 }

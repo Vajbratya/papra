@@ -15,4 +15,10 @@ describe('radiology reports services', () => {
     const { report } = await service.generateReport({ exam: 'CT chest', findings: 'no abnormalities' });
     expect(report).toBe('mock report');
   });
+
+  test('autocompleteReport returns continuation', async () => {
+    const service = createRadiologyReportsService({ config: { openai: { apiKey: 'key', model: 'gpt-4o' } } as any });
+    const { text } = await service.autocompleteReport({ text: 'partial' });
+    expect(text).toBe('mock report');
+  });
 });
